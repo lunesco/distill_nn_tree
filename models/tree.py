@@ -257,16 +257,31 @@ class SoftBinaryDecisionTree(object):
         self.initialized = True
 
     def maybe_train(self, sess, data_train, data_valid,
-                    batch_size, epochs, callbacks=None, distill=False):
+                    batch_size, epochs, callbacks=None, distill=False, from_scratch=False):
 
         DIR_ASSETS = 'assets/'
         DIR_DISTILL = 'distilled/'
         DIR_NON_DISTILL = 'non-distilled/'
-        DIR_MODEL = DIR_ASSETS + (DIR_DISTILL if distill else DIR_NON_DISTILL)
+        DIR_DEPTH = f"{self.max_depth}/"
+        DIR_MODEL = DIR_ASSETS + (DIR_DISTILL if distill else DIR_NON_DISTILL) + DIR_DEPTH
         PATH_MODEL = DIR_MODEL + 'tree-model'
-
+        
+        if from_scratch:
+            print('Training from scratch.')
+            x_train, y_train = data_train
+            self.initialize_variables(sess, x_train, batch_size)
+            self.model.fit(
+                x_train, y_train, validation_data=data_valid,
+                batch_size=batch_size, epochs=epochs, callbacks=callbacks)
+            print('Saving trained model to {}.'.format(PATH_MODEL))
+            if not os.path.isdir(DIR_MODEL):
+                os.mkdir(DIR_MODEL)
+            self.save_variables(sess, PATH_MODEL)
+            
         try:
             print('Loading trained model from {}.'.format(PATH_MODEL))
+            if not os.path.isdir(DIR_MODEL):
+                os.mkdir(DIR_MODEL)
             self.load_variables(sess, PATH_MODEL)
             return
         except ValueError as e:
