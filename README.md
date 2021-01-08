@@ -31,7 +31,7 @@ ipython kernel install --name "venv" --user
 ```
 Teraz możemy uruchomić jupytera:
 ```
-jupyter notebook mnist.ipynb
+jupyter notebook knowledge_distillation_tutorial.ipynb
 ```
 Wewnątrz notebooka może być jeszcze konieczne ustawienie odpowiedniego kernela.
 
