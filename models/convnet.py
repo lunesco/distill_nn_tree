@@ -48,10 +48,10 @@ class ConvNet(object):
         self.model.compile(optimizer=self.optimizer, loss=self.loss,
                            metrics=self.metrics)
 
-    def maybe_train(self, data_train, data_valid, batch_size, epochs):
+    def maybe_train(self, data_train, data_valid, batch_size, epochs, model_name='nn-model'):
 
         DIR_ASSETS = 'assets/'
-        PATH_MODEL = DIR_ASSETS + 'nn-model.hdf5'
+        PATH_MODEL = DIR_ASSETS + f'{model_name}.hdf5'
 
         if os.path.exists(PATH_MODEL):
             print('Loading trained model from {}.'.format(PATH_MODEL))

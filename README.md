@@ -20,7 +20,7 @@ py -3.8 -m pip install -r requirements.txt
 Tworzymy wirtualne środowisko:
 ```
 python3.8 -m venv venv
-. /venv/bin/activate
+source /venv/bin/activate
 python3.8 -m pip install -r requirements.txt
 ```
 
